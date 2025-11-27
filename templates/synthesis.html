@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DDPM Medical Image Synthesis</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 40px;
+            font-family: "Segoe UI", sans-serif;
+            background: linear-gradient(135deg, #0f1115, #1a1d23);
+            color: #e6e6e6;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 34px;
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        .card {
+            background: rgba(28, 30, 35, 0.85);
+            padding: 30px;
+            margin: auto;
+            width: 450px;
+            border-radius: 16px;
+            box-shadow: 0 8px 25px rgba(0,0,0,.35);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        label {
+            font-size: 15px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        select, input[type="number"], input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.15);
+            background: rgba(15,17,22,0.75);
+            color: #e5e8ec;
+            font-size: 15px;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #006aff, #0053c7);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            box-shadow: 0 4px 14px rgba(0,102,255,0.25);
+            transition: .25s;
+        }
+
+        .btn:hover {
+            background: linear-gradient(135deg, #0057d1, #003e94);
+        }
+
+        #resultBox {
+            background: rgba(255,255,255,0.06);
+            padding: 15px;
+            border-radius: 12px;
+            margin-top: 20px;
+            font-size: 14px;
+            white-space: pre-wrap;
+        }
+
+        #loading {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .spinner {
+            border: 6px solid #444;
+            border-top: 6px solid #00a8ff;
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            animation: spin 0.8s linear infinite;
+            margin: auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg);}
+            100% { transform: rotate(360deg);}
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>DDPM Medical Image Synthesis</h1>
+
+<div class="card">
+
+    <label>API URL</label>
+    <input id="apiUrl" type="text" value="http://localhost:8000">
+
+    <label>Select Image Type</label>
+    <select id="modelSelect">
+        <option value="brain">Brain MRI</option>
+        <option value="chest">Chest X-Ray</option>
+        <option value="lung">Lung CT</option>
+        <option value="kidney">Kidney CT</option>
+    </select>
+
+    <label>Number of Images</label>
+    <input id="numImages" type="number" min="1" max="50" value="5">
+
+    <button class="btn" onclick="generateImages()">Generate Images</button>
+
+    <div id="loading">
+        <div class="spinner"></div>
+        <p>Generating images, please wait...</p>
+    </div>
+
+    <div id="resultBox">No synthesis performed yet.</div>
+
+</div>
+
+<script>
+async function generateImages() {
+    const api = document.getElementById("apiUrl").value.trim();
+    const numImages = document.getElementById("numImages").value;
+    const selected = document.getElementById("modelSelect").value;
+
+    const modelPaths = {
+        brain:  "./models/ddpm_brain.pth",
+        chest:  "./models/ddpm_chest.pth",
+        lung:   "./models/ddpm_lung.pth",
+        kidney: "./models/ddpm_kidney.pth",
+    };
+
+    const modelPath = modelPaths[selected];
+
+    let form = new FormData();
+    form.append("model_path", modelPath);
+    form.append("num_images", numImages);
+
+    document.getElementById("loading").style.display = "block";
+    document.getElementById("resultBox").innerText = "Processing...";
+
+    const res = await fetch(api.replace(/\/+$/, "") + "/synthesis", {
+        method: "POST",
+        body: form
+    });
+
+    const json = await res.json();
+    document.getElementById("loading").style.display = "none";
+
+    if (json.status !== "ok") {
+        document.getElementById("resultBox").innerText =
+            "❌ Error: " + json.message;
+        return;
+    }
+
+    const downloadUrl = api.replace(/\/+$/, "") + json.zip_url;
+
+    document.getElementById("resultBox").innerHTML =
+        `<strong>Images Generated:</strong> ${numImages}<br>
+         <strong>Model:</strong> ${selected}<br><br>
+         <a href="${downloadUrl}" download style="color:#4ab8ff; font-size:16px;">⬇ Download ZIP</a>`;
+}
+</script>
+
+</body>
+</html>

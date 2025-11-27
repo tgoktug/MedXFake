@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MedXFake — Medical DeepFake Platform</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 40px;
+            font-family: "Segoe UI", sans-serif;
+            background: linear-gradient(135deg, #0f1115, #1a1d23);
+            color: #e6e6e6;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 40px;
+            margin-bottom: 15px;
+            font-weight: 700;
+            color: #ffffff;
+            text-shadow: 0 0 18px rgba(0,0,0,0.5);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 35px;
+            font-weight: 300;
+            color: #9ca7b5;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        .card {
+            background: rgba(28, 30, 35, 0.8);
+            backdrop-filter: blur(14px);
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.35);
+            border: 1px solid rgba(255,255,255,0.06);
+            margin-bottom: 35px;
+        }
+
+        .card p {
+            line-height: 1.6;
+            font-size: 16px;
+            color: #d0d6df;
+        }
+
+        .modules {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 25px;
+            margin-top: 25px;
+        }
+
+        .module-card {
+            background: rgba(45, 48, 55, 0.75);
+            padding: 22px;
+            border-radius: 14px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.07);
+            cursor: pointer;
+            transition: 0.25s;
+        }
+
+        .module-card:hover {
+            background: rgba(65, 70, 78, 0.85);
+            transform: translateY(-4px);
+            box-shadow: 0 6px 18px rgba(0,0,0,0.4);
+        }
+
+        .module-card h3 {
+            color: #dfe4ea;
+            margin-bottom: 12px;
+            font-size: 18px;
+        }
+
+        .module-card p {
+            color: #aeb7c2;
+            font-size: 14px;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+    </style>
+
+</head>
+<body>
+
+<h1>MedXFake</h1>
+<h2>A New, Comprehensive, Realistic and Applicable Deep-Fake Synthesis, Manipulation and Detection System for Medical Images</h2>
+
+<div class="container">
+
+    <div class="card">
+        <h3 style="color:#ffffff; margin-top:0;">Abstract</h3>
+        <p>
+            Accessing the outputs of medical imaging applications is costly and challenging due to factors such as
+            protecting patient rights and confidentiality of personal data. Image synthesis methods developed to solve
+            these problems are dangerous in terms of medical data security.
+            <br><br>
+            In this study, deepfake images were generated using DDPM and GAN models on medical images collected from
+            online platforms. A realistic medical image manipulation pipeline was built using a DDPM-based method.
+            Furthermore, a large medical deepfake dataset was created, and different learning strategies were
+            implemented for deepfake detection.
+            <br><br>
+            Fake images synthesized from scratch were detected using a ResNet-based classifier, achieving an
+            F1-score of <b>99.783%</b>. Detecting manipulated images is more challenging; therefore, a contrastive
+            learning–based fine-tuning stage was applied, boosting CNN detection accuracy from <b>89.9%</b> to <b>98%</b>.
+            <br><br>
+            All synthesis, manipulation, and detection modules were integrated into a unified API system, and a user-friendly
+            web application was developed to bring high-performance medical deepfake generation and detection capabilities
+            to the end user.
+        </p>
+    </div>
+
+    <div class="card">
+        <h3 style="color:#ffffff; margin-top:0;">Available Modules</h3>
+
+        <div class="modules">
+
+            <a href="manipulation.html">
+                <div class="module-card">
+                    <h3>DDPM Manipulation</h3>
+                    <p>Upload an image, select a bounding box, and apply DDPM-based medical image manipulation.</p>
+                </div>
+            </a>
+
+            <a href="detect_manip.html">
+                <div class="module-card">
+                    <h3>Manipulation Detection</h3>
+                    <p>Binary classifier for detecting DDPM-based medical image manipulation.</p>
+                </div>
+            </a>
+
+            <a href="detect_8class.html">
+                <div class="module-card">
+                    <h3>8-Class Fake Detection</h3>
+                    <p>Identify real vs synthetic brain, lung, kidney and breast image pairs using a ResNet model.</p>
+                </div>
+            </a>
+
+            <a href="synthesis.html">
+                <div class="module-card">
+                    <h3>Image Synthesis</h3>
+                    <p>Generate medical deepfake images (Brain MRI, Kidney CT, Lung CT, Breast USG) using DDPM models.</p>
+                </div>
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>
