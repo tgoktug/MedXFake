@@ -112,8 +112,8 @@ POST /detect/synthesis8
 
 # 🌐 5. Web Interface (IMPORTANT)
 
-⚠ index.html **FastAPI tarafından serve edilmez.**  
-**Dosyadan direkt açılmalıdır.**
+⚠ index.html **It is not served by FastAPI.**  
+**It should be opened directly from the file.**
 
 ---
 
@@ -136,16 +136,6 @@ models/
 
 ---
 
-# 📝 Citation
-
-```
-@article{MedXFake2025,
-  title={MedXFake: A New, Comprehensive, Realistic and Applicable Deep-Fake Synthesis, Manipulation and Detection System for Medical Images},
-  author={Karakose, Mehmet and Altundoğan, T. Göktuğ and Çeçen, Mert},
-  journal={SoftwareX},
-  year={2025}
-}
-```
 
 ---
 
